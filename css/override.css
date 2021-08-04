@@ -1,0 +1,14 @@
+@media( orientation: landscape)
+{
+    /*write css that you want to change when in landscape mode*/
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.ui-listview .ui-li-has-thumb > img.practice-img{
+    position: relative !important;
+    max-height: 150px !important;
+    max-width: 150px !important;
+    height: 150px !important;
+    width: 150px !important;
+}

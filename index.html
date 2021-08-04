@@ -1,0 +1,301 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+<title>Spelling Quiz</title>
+    
+<link rel="stylesheet" type="text/css" href="css/override.css">
+<link rel="stylesheet" type="text/css" href="css/themes/base-theme-colors-it3.min.css">
+<link rel="stylesheet" type="text/css" href="css/themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.mobile.structure-1.4.5.min.css" /> 
+<!--<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">-->
+<script src="jQuery/jquery-1.11.2.min.js"></script>
+<script src="jQuery/jquery.mobile-1.4.5.min.js"></script>
+<script src="js/app.js"></script>
+</head>
+ 
+<body class="ui-alt-icon"> 
+
+<div data-role="page" id="page" data-theme="a">
+    <div data-role="header">
+        <h1>Spelling Quiz</h1>
+        <a href="#settings" class="ui-btn-right" data-icon="gear">Settings</a>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+        <ul data-role="listview" data-inset="true">
+            <li><a href="#gameLoop">Play</a></li>
+            <li><a href="#highScores">High Scores</a></li>
+            <li><a href="#practice">Practice</a></li>
+        </ul>		
+   </div>
+   <div data-role="footer">
+        <h4>Peter Hinch</h4>
+   </div>
+</div>
+    
+<div data-role="page" id="settings">
+    <div data-role="header" data-add-back-btn="true">
+        <!-- link back to app is hard-coded to skip dialogs if we arrived here that way -->
+        <!-- data-ajax="false" tells jQuery to reload the multi-page app to avoid an error -->
+        <a href="#page" data-icon="home" data-ajax="false">Home</a>
+        <h1>Settings</h1>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+        
+        <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-role="listview" data-inset="true">
+            <li class="ui-li-divider" data-role="list-divider" role="heading">Settings Lock</li>
+            <li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Lock User Preferences:</legend>
+                    <input type="radio" name="radio-parent-lock" id="parent-lock-off" value="off">
+                    <label for="parent-lock-off">Unlocked</label>
+                    <input type="radio" name="radio-parent-lock" id="parent-lock-on" value="on" checked="checked">
+                    <label for="parent-lock-on">Locked</label>
+                </fieldset>
+            </li>
+            <li class="ui-li-divider" data-role="list-divider" role="heading">General Settings</li>
+            <li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Aussie Slang:</legend>
+                    <input type="radio" name="radio-slang" id="aussie-slang-on" value="on" checked="checked">
+                    <label for="aussie-slang-on">Yeah</label>
+                    <input type="radio" name="radio-slang" id="aussie-slang-off" value="off">
+                    <label for="aussie-slang-off">Nah</label>
+                </fieldset>
+            </li>
+            <li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Difficulty:</legend>
+                    <input type="radio" name="radio-difficulty" id="difficulty-normal" value="normal" checked="checked">
+                    <label for="difficulty-normal">Normal</label>
+                    <input type="radio" name="radio-difficulty" id="difficulty-hard" value="hard">
+                    <label for="difficulty-hard">Hard</label>
+                </fieldset>
+            </li>
+            <li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>UI Theme:</legend>
+                    <input type="radio" name="radio-ui-theme" id="ui-theme-light" value="light" checked="checked">
+                    <label for="ui-theme-light">Light</label>
+                    <input type="radio" name="radio-ui-theme" id="ui-theme-dark" value="dark">
+                    <label for="ui-theme-dark">Dark</label>
+                </fieldset>
+            </li>
+            <li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Text Size:</legend>
+                    <input type="radio" name="radio-text-size" id="text-size-standard" value="standard" checked="checked">
+                    <label for="text-size-standard">Standard</label>
+                    <input type="radio" name="radio-text-size" id="text-size-large" value="large">
+                    <label for="text-size-large">Large</label>
+                </fieldset>
+            </li>
+            <li class="ui-li-divider" data-role="list-divider" role="heading">Parental Controls</li>
+            <li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Anonymised High Scores:</legend>
+                    <input type="radio" name="radio-anonymised" id="anonymised-on" value="on" checked="checked">
+                    <label for="anonymised-on">On</label>
+                    <input type="radio" name="radio-anonymised" id="anonymised-off" value="off">
+                    <label for="anonymised-off">Off</label>
+                </fieldset>
+            </li>
+            <li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Erase High Scores:</legend>
+                    <button id="clearHighScoresButton" data-inline="true" name="clearHighScoresButton">Clear Scores</button>
+                </fieldset>
+            </li>
+            <!--<li class="ui-li-static">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Parental PIN:</legend>
+                    <button id="resetPinButton" data-inline="true" name="resetPinButton">Reset PIN</button>
+                </fieldset>
+            </li>-->
+        </ul>
+
+
+        <button id="savePrefsButton" data-inline="true" name="savePrefsButton">Save Preferences</button>
+        <button id="resetPrefsButton" data-inline="true" name="resetPrefsButton">Reset Defaults</button>
+
+        <p id="outputSettings"></p>
+        
+    </div>
+    <div data-role="footer">
+        <h4>Peter Hinch</h4>
+      </div>
+</div>
+
+<div data-role="page" id="gameLoop">
+    <div data-role="header" data-add-back-btn="true">
+        <!-- link back to app is hard-coded to skip dialogs if we arrived here that way -->
+        <!-- data-ajax="false" tells jQuery to reload the multi-page app to avoid an error -->
+        <a href="#page" data-icon="home" data-ajax="false">Home</a>
+        <h1>Quiz Game</h1>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+        
+        <div id="gameLoopImageDiv" class="ui-body ui-body-a ui-corner-all">
+            <img id="questionImage" />
+            <div id="outputGameLoop" data-role="fieldcontain"></div>
+        </div>      
+            
+        <div id="theGameLoop" data-role="fieldcontain">
+            <fieldset data-role="controlgroup" name="radioAnswers">
+                
+                <input type="radio" name="radioAnswers" id="radAnsA" onClick="checkAnswer(this.value);" />
+                <label for="radAnsA"></label>
+
+                <input type="radio" name="radioAnswers" id="radAnsB" onClick="checkAnswer(this.value);"/>
+                <label for="radAnsB"></label>
+
+                <input type="radio" name="radioAnswers" id="radAnsC" onClick="checkAnswer(this.value);"/>
+                <label for="radAnsC"></label>
+
+            </fieldset>
+        </div>
+
+        <button id="nextQuestionButton" data-inline="true">Next</button>
+        <button id="highScoresButton" data-inline="true">High Scores</button>
+        <button id="beginGameButton" data-inline="true">Start Game</button>
+
+    </div>
+    <div data-role="footer"> 
+        <h4>Peter Hinch</h4>    
+    </div>
+</div>
+    
+<div data-role="page" id="highScores">
+    <div data-role="header" data-add-back-btn="true">
+        <!-- link back to app is hard-coded to skip dialogs if we arrived here that way -->
+        <!-- data-ajax="false" tells jQuery to reload the multi-page app to avoid an error -->
+        <a href="#page" data-icon="home" data-ajax="false">Home</a>
+        <h1>High Scores</h1>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+
+        <div id="outputHighScores"></div>
+
+        <button id="playAgainButton" data-inline="true">Play Again</button>
+        
+    </div>
+    <div data-role="footer">
+        <h4>Peter Hinch</h4>
+  	</div>
+</div>
+
+<div data-role="page" id="practice">
+    <div data-role="header" data-add-back-btn="true">
+        <!-- link back to app is hard-coded to skip dialogs if we arrived here that way -->
+        <!-- data-ajax="false" tells jQuery to reload the multi-page app to avoid an error -->
+        <a href="#page" data-icon="home" data-ajax="false">Home</a>
+        <h1>Practice</h1>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+        
+        <div id="outputPractice"></div>
+        
+    </div>
+    <div data-role="footer">
+        <h4>Peter Hinch</h4>
+      </div>
+</div>
+
+<div data-role="page" id="newPinDialog" data-dialog="true">
+    <div data-role="header">
+        <h1>New Parental PIN</h1>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+        
+        <p id="pinPrompt"></p>
+
+        <div data-role="fieldcontain">
+			<label for="pwdNewParentalPin">New PIN:</label>
+            <input type="password" name="pwdNewParentalPin" id="pwdNewParentalPin" onkeyup="validatePin();"/>
+        </div>
+
+        <p id="outputNewPinDialog">&nbsp;</p>
+                
+        <p id="pinDesc"></p>
+
+        <button id="btnNewPin" data-inline="true">OK</button>
+    </div>
+    <div data-role="footer">
+        <h4>Peter Hinch</h4>
+  	</div>
+</div>
+
+<div data-role="page" id="checkPinDialog" data-dialog="true">
+    <div data-role="header">
+        <h1>Enter Parental PIN</h1>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+        
+        <p id="pinPrompt"></p>
+
+        <div data-role="fieldcontain">
+			<label for="pwdCheckParentalPin">Enter PIN:</label>
+            <input type="password" name="pwdCheckParentalPin" id="pwdCheckParentalPin"/>
+        </div>
+
+        <p id="outputCheckPinDialog">&nbsp;</p>
+                
+        <p id="pinDesc"></p>
+
+        <button id="btnCheckPin" data-inline="true">OK</button>
+    </div>
+    <div data-role="footer">
+        <h4>Peter Hinch</h4>
+  	</div>
+</div>
+
+<div data-role="page" id="highScoresDialog" data-dialog="true">
+    <div data-role="header">
+        <h1>New High Score!</h1>
+    </div>
+    <!--<div data-role="content">-->
+    <div data-role="main" class="ui-content">	
+
+        <div id="highScoresNames">
+            <div data-role="fieldcontain">
+                <label for="txtEnterName">Name:</label>
+                <input type="text" name="txtEnterName" id="txtEnterName"/>
+            </div>
+
+            <button id="btnConfirmName" data-inline="true">OK</button>
+        </div>
+
+        <div id="highScoresAvatars">        
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <legend>Who are you?</legend>
+                <input type="radio" name="radio-anon-avatar" id="anon-avatar-0" value="0">
+                <label for="anon-avatar-0"></label>
+                <input type="radio" name="radio-anon-avatar" id="anon-avatar-1" value="1">
+                <label for="anon-avatar-1"></label>
+                <input type="radio" name="radio-anon-avatar" id="anon-avatar-2" value="2">
+                <label for="anon-avatar-2"></label>
+                <input type="radio" name="radio-anon-avatar" id="anon-avatar-3" value="3">
+                <label for="anon-avatar-3"></label>
+                <input type="radio" name="radio-anon-avatar" id="anon-avatar-4" value="4">
+                <label for="anon-avatar-4"></label>
+            </fieldset>
+            
+            <button id="btnConfirmAvatar" data-inline="true">OK</button>
+        </div>
+
+        <p id="outputEnterName">&nbsp;</p>
+    </div>
+    <div data-role="footer">
+        <h4>Peter Hinch</h4>
+  	</div>
+</div>
+
+</body>
+</html>
